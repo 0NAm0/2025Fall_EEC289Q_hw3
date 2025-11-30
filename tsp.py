@@ -23,6 +23,7 @@ def load_euclidean_graph(path):
 
     return dist
 
+
 # Graph B
 def load_random_graph(path):
     with open(path, "r") as f:
@@ -126,6 +127,18 @@ def tsp_heuristic(dist, time_limit=55.0, seed=0):
     return best_tour, best_cost, total_cycles
 
 
+# Save solution (for text file)
+def save_solution(tour, student_id, graph_name):
+    # convert to 1-based indices for output
+    tour_1_based = [v + 1 for v in tour]
+
+    filename = f"solution_{student_id}_{graph_name}.txt"
+    with open(filename, "w") as f:
+        f.write(", ".join(map(str, tour_1_based)))
+    print(f"[Saved] Best tour for Graph {graph_name} -> {filename}")
+
+
+
 # Main execution for both graphs
 def run_for_graphs():
     TIME_LIMIT = 55.0
@@ -148,6 +161,11 @@ def run_for_graphs():
     tour_B, cost_B, cycles_B = tsp_heuristic(dist_B, TIME_LIMIT, seed=43)
     print(f"Graph B best tour cost: {cost_B:.2f}")
     print(f"Graph B cycles evaluated: {cycles_B:.1e}")
+
+
+    student_id = "924238136" 
+    save_solution(tour_A, student_id, "A")
+    save_solution(tour_B, student_id, "B")
 
     return (tour_A, cost_A, cycles_A), (tour_B, cost_B, cycles_B)
 
